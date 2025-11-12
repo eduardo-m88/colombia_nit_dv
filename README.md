@@ -47,14 +47,14 @@ require "colombia_nit_dv"
 
 dv = ColombiaNitDv.verification_digit("900373923")
 puts dv
-# => 1
+# => 8
 ```
 
 También funciona si el NIT viene con caracteres adicionales:
 
 ```ruby
 ColombiaNitDv.verification_digit(" 900.373.923- ")
-# => 1
+# => 8
 ```
 
 ---
