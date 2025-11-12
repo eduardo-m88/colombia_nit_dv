@@ -1,35 +1,124 @@
-# ColombiaNitDv
+# Colombia NIT DV
 
-TODO: Delete this and the text below, and describe your gem
+[![Gem Version](https://badge.fury.io/rb/colombia_nit_dv.svg)](https://badge.fury.io/rb/colombia_nit_dv)
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/colombia_nit_dv`. To experiment with that code, run `bin/console` for an interactive prompt.
+Gema ligera para calcular el **dígito de verificación (DV)** del **NIT en Colombia**, usando el algoritmo oficial utilizado por la DIAN / RUES.
 
-## Installation
+No tiene dependencias externas y funciona en Ruby **>= 2.6**.
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+---
 
-Install the gem and add to the application's Gemfile by executing:
+## ✨ Características
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+- Calcula el dígito de verificación del NIT colombiano.
+- Admite NIT con espacios, puntos, guiones o comas.
+- Valida que el NIT contenga solo números.
+- Compatible con Ruby 2.6+, 2.7 y 3.x.
+- Sin dependencias: rápida y segura.
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+---
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+## 📦 Instalación
 
-## Usage
+Agrega esta línea a tu `Gemfile`:
 
-TODO: Write usage instructions here
+```ruby
+gem "colombia_nit_dv"
+```
 
-## Development
+Y ejecuta:
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```bash
+bundle install
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+O instálala manualmente:
 
-## Contributing
+```bash
+gem install colombia_nit_dv
+```
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/colombia_nit_dv.
+---
 
-## License
+## 🧪 Uso
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+```ruby
+require "colombia_nit_dv"
+
+dv = ColombiaNitDv.verification_digit("900373923")
+puts dv
+# => 1
+```
+
+También funciona si el NIT viene con caracteres adicionales:
+
+```ruby
+ColombiaNitDv.verification_digit(" 900.373.923- ")
+# => 1
+```
+
+---
+
+## 📘 API
+
+### `ColombiaNitDv.verification_digit(nit)`
+
+**Parámetros:**
+
+| Parámetro | Tipo   | Descripción                                      |
+|----------|--------|--------------------------------------------------|
+| `nit`    | String | Número de NIT con o sin formato (., -, espacios) |
+
+**Retorna:**
+
+- `Integer` → el dígito de verificación (0–9)
+- Lanza `ArgumentError` si el NIT no es numérico
+
+---
+
+## 🧰 Ejemplo práctico en Rails
+
+Validador personalizado:
+
+```ruby
+validate :nit_with_dv
+
+def nit_with_dv
+  expected_dv = ColombiaNitDv.verification_digit(nit)
+  errors.add(:dv, "no coincide") if dv.to_i != expected_dv
+end
+```
+
+---
+
+## 🧪 Pruebas
+
+Para ejecutar los tests:
+
+```bash
+bundle exec rspec
+```
+
+---
+
+## 🤝 Contribuciones
+
+¡Las contribuciones son bienvenidas!
+
+1. Haz un fork del proyecto
+2. Crea una rama: `git checkout -b mi-mejora`
+3. Envía un PR
+
+---
+
+## 📄 Licencia
+
+Este proyecto está disponible bajo la licencia **MIT**.
+
+---
+
+## 📬 Autor
+
+**Eduardo Mendoza**  
+GitHub: https://github.com/eduardo-m88  
+Email: eduardoalfonsom88@gmail.com
